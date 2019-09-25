@@ -70,7 +70,7 @@ module OGP
         self.title=document.title
       end
       if self.description.blank?
-
+        self.title=document.at('meta[name="description"]').try(:[], 'content')
       end
     end
 
