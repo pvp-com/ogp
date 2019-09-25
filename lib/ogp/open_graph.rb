@@ -8,6 +8,7 @@ module OGP
     # Required Accessors
     attr_accessor :title, :type, :url
     attr_accessor :images
+    attr_accessor :source
 
     # Optional Accessors
     attr_accessor :description, :determiner, :site_name
@@ -16,20 +17,21 @@ module OGP
     attr_accessor :videos
 
     def initialize(source)
-      if source.nil? || source.empty?
-        raise ArgumentError, '`source` cannot be nil or empty.'
+      body = source.try(:body)
+      if body.nil? || body.empty?
+        raise ArgumentError, 'body cannot be nil or empty.'
       end
 
-      raise MalformedSourceError unless source.include?('</html>')
+      raise MalformedbodyError unless body.include?('</html>')
 
-      source.force_encoding('UTF-8') if source.encoding != 'UTF-8'
+      body.force_encoding('UTF-8') if body.encoding != 'UTF-8'
 
-      self.images = []
+      self.source = source
       self.audios = []
       self.locales = []
       self.videos = []
-
-      document = Nokogiri::HTML::Document.parse(source)
+      self.videos = []
+      document = Nokogiri::HTML::Document.parse(body)
       parse_attributes(document)
     end
 
@@ -70,7 +72,10 @@ module OGP
         self.title=document.title
       end
       if self.description.blank?
-        self.title=document.at('meta[name="description"]').try(:[], 'content')
+        self.description=document.at('meta[name="description"]').try(:[], 'content')
+      end
+      if self.url.blank?
+        self.url = source.request.uri.to_s
       end
     end
 
