@@ -29,7 +29,7 @@ module OGP
       self.locales = []
       self.videos = []
 
-      document = Oga.parse_html(source)
+      document = Nokogiri::HTML::Document.parse(source)
       parse_attributes(document)
     end
 
@@ -67,7 +67,7 @@ module OGP
         end
       end
       if self.title.blank?
-        self.title=Nokogiri::HTML::Document.parse(document).title
+        self.title=document.title
       end
       if self.description.blank?
 
