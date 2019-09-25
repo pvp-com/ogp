@@ -35,10 +35,10 @@ module OGP
     end
 
     def image
-      return "array empty" if images.nil?
+      return nil if images.nil?
       res = images.first.try(:url)
-      return "no url for first image #{res}" if res.nil?
-      begin
+      return nil if res.nil?
+      # begin
         uri = URI.parse(res)
         if uri.scheme.blank? || uri.host.blank?
           main_uri = URI.parse(url)
@@ -46,9 +46,9 @@ module OGP
           res.host = main_uri.host 
         end
         return res.to_s
-      rescue StandardError => e
-        return "parsing error"
-      end
+      # rescue StandardError => e
+      #   return nil
+      # end
     end
 
   private
