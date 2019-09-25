@@ -1,4 +1,3 @@
-require 'oga'
 require 'ostruct'
 
 REQUIRED_ATTRIBUTES = %w(title type image url).freeze
@@ -30,7 +29,7 @@ module OGP
       self.audios = []
       self.locales = []
       self.videos = []
-      self.videos = []
+      self.images = []
       document = Nokogiri::HTML::Document.parse(body)
       parse_attributes(document)
     end
