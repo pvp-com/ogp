@@ -38,17 +38,18 @@ module OGP
       return nil if images.nil?
       res = images.first.try(:url)
       return nil if res.nil?
-      # begin
+      begin
         uri = URI.parse(res)
         if uri.scheme.blank? || uri.host.blank?
-          main_uri = URI.parse(url)
-          res.scheme = main_uri.scheme 
-          res.host = main_uri.host 
+          main_uri = URI.parse(self.url)
+          uri.scheme= main_uri.scheme 
+          uri.host= main_uri.host 
+          res = uri.to_s
         end
-        return res.to_s
-      # rescue StandardError => e
-      #   return nil
-      # end
+      rescue StandardError => e
+        return nil
+      end
+      return res
     end
 
   private
