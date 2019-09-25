@@ -43,27 +43,27 @@ module OGP
     # rubocop:disable Metrics/CyclomaticComplexity
     def parse_attributes(document)
       document.xpath('//head/meta[starts-with(@property, \'og:\')]').each do |attribute|
-        attribute_name = attribute.get('property').downcase.gsub('og:', '')
+        attribute_name = attribute['property'].downcase.gsub('og:', '')
         case attribute_name
           when /^image$/i
-            images << OpenStruct.new(url: attribute.get('content').to_s)
+            images << OpenStruct.new(url: attribute['content'].to_s)
           when /^image:(.+)/i
             images << OpenStruct.new unless images.last
-            images.last[Regexp.last_match[1].gsub('-', '_')] = attribute.get('content').to_s
+            images.last[Regexp.last_match[1].gsub('-', '_')] = attribute['content'].to_s
           when /^audio$/i
-            audios << OpenStruct.new(url: attribute.get('content').to_s)
+            audios << OpenStruct.new(url: attribute['content'].to_s)
           when /^audio:(.+)/i
             audios << OpenStruct.new unless audios.last
-            audios.last[Regexp.last_match[1].gsub('-', '_')] = attribute.get('content').to_s
+            audios.last[Regexp.last_match[1].gsub('-', '_')] = attribute['content'].to_s
           when /^locale/i
-            locales << attribute.get('content').to_s
+            locales << attribute['content'].to_s
           when /^video$/i
-            videos << OpenStruct.new(url: attribute.get('content').to_s)
+            videos << OpenStruct.new(url: attribute['content'].to_s)
           when /^video:(.+)/i
             videos << OpenStruct.new unless videos.last
-            videos.last[Regexp.last_match[1].gsub('-', '_')] = attribute.get('content').to_s
+            videos.last[Regexp.last_match[1].gsub('-', '_')] = attribute['content'].to_s
           else
-            instance_variable_set("@#{attribute_name}", attribute.get('content'))
+            instance_variable_set("@#{attribute_name}", attribute['content'])
         end
       end
       if self.title.blank?
