@@ -30,7 +30,6 @@ module OGP
       self.videos = []
 
       document = Oga.parse_html(source)
-      check_required_attributes(document)
       parse_attributes(document)
     end
 
@@ -40,12 +39,6 @@ module OGP
     end
 
   private
-
-    def check_required_attributes(document)
-      REQUIRED_ATTRIBUTES.each do |attribute_name|
-        raise MissingAttributeError, "Missing required attribute: #{attribute_name}" unless attribute_exists(document, attribute_name)
-      end
-    end
 
     # rubocop:disable Metrics/CyclomaticComplexity
     def parse_attributes(document)
