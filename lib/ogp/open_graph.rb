@@ -66,6 +66,12 @@ module OGP
             instance_variable_set("@#{attribute_name}", attribute.get('content'))
         end
       end
+      if self.title.blank?
+        self.title=Nokogiri::HTML::Document.parse(document).title
+      end
+      if self.description.blank?
+
+      end
     end
 
     def attribute_exists(document, name)
