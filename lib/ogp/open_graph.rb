@@ -77,7 +77,7 @@ module OGP
             videos << OpenStruct.new unless videos.last
             videos.last[Regexp.last_match[1].gsub('-', '_')] = attribute['content'].to_s
           else
-            instance_variable_set("@#{attribute_name}", attribute['content'])
+            instance_variable_set("@#{attribute_name}", attribute['content'].to_s)
         end
       end
       if self.title.blank?
