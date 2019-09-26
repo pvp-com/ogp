@@ -20,7 +20,6 @@ Gem::Specification.new do |spec|
   spec.test_files    = `git ls-files -- {test,spec,features}/*`.split("\n")
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'oga', '~> 2.15'
   spec.add_dependency 'nokogiri', '~> 1.10.4'
 
   spec.add_development_dependency 'bundler', '~> 1.13'
