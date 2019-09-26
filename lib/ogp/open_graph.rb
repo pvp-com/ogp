@@ -80,15 +80,15 @@ module OGP
             instance_variable_set("@#{attribute_name}", attribute['content'].to_s)
         end
       end
-      if self.title.blank?
-        self.title=document.title
-      end
-      if self.description.blank?
-        self.description=document.at('meta[name="description"]').try(:[], 'content')
-      end
-      if self.url.blank?
-        self.url = source.request.uri.to_s
-      end
+      # if self.title.blank?
+      #   self.title=document.title
+      # end
+      # if self.description.blank?
+      #   self.description=document.at('meta[name="description"]').try(:[], 'content')
+      # end
+      # if self.url.blank?
+      #   self.url = source.request.uri.to_s
+      # end
     end
 
     def attribute_exists(document, name)
