@@ -56,6 +56,7 @@ module OGP
       hash[:html_title] = document.title
       hash[:html_description] = document.at('meta[name="description"]').try(:[], 'content')
       hash[:html_url] = source.request.uri.to_s
+      hash[:html_image] = document.to_s.scan(/"(?<url>http.+?\.(png|jpg|jpeg))"/).try(:first).try(:first)
       hash
     end
 
