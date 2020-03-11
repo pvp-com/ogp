@@ -50,7 +50,7 @@ module OGP
 
       keys = document.xpath('//*[starts-with(@name, \'twitter:\')]').map{|tag| tag.attributes['name'].value }.uniq
       keys.each do |key|
-        hash[key.tr(":", "_").to_sym] = document.xpath("//*[@name='#{key}']").map{|meta_og| meta_og.attributes['content'].value}
+        hash[key.tr(":", "_").to_sym] = document.xpath("//*[@name='#{key}']").map{|meta_og| meta_og.attributes['content'].try(:value) || meta_og.attributes['value'].try(:value) }
       end
 
       hash[:html_title] = document.title
