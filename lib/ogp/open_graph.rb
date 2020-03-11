@@ -12,8 +12,6 @@ module OGP
         raise ArgumentError, 'body cannot be nil or empty.'
       end
 
-      raise MalformedbodyError unless body.include?('</html>')
-
       body.force_encoding('UTF-8') if body.encoding != 'UTF-8'
 
       self.source = source
@@ -56,7 +54,7 @@ module OGP
       hash[:html_title] = document.title
       hash[:html_description] = document.at('meta[name="description"]').try(:[], 'content')
       hash[:html_url] = source.request.uri.to_s
-      hash[:html_image] = document.to_s.scan(/"(?<url>http[^"\s]+?\.(png|jpg|jpeg))"/).try(:first).try(:first)
+      hash[:html_image] = document.to_s.scan(/"(?<url>http[^"\s]+?\.(png|jpg|jpeg))[^"\s]*?"/).try(:first).try(:first)
       hash
     end
 
