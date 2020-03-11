@@ -43,12 +43,18 @@ module OGP
     # rubocop:disable Metrics/CyclomaticComplexity
     def parse_attributes(document)
       hash = {}
-      keys = document.xpath('//meta[starts-with(@property, \'og:\')]').map{|tag| tag.attributes['property'].value }.uniq
+      keys = document.xpath('//*[starts-with(@property, \'og:\')]').map{|tag| tag.attributes['property'].value }.uniq
       keys.each do |key|
         hash[key.tr(":", "_").to_sym] = document.xpath("//*[@property='#{key}']").map{|meta_og| meta_og.attributes['content'].value}
       end
-      hash[:html_title]=document.title
-      hash[:html_description]=document.at('meta[name="description"]').try(:[], 'content')
+
+      keys = document.xpath('//*[starts-with(@name, \'twitter:\')]').map{|tag| tag.attributes['name'].value }.uniq
+      keys.each do |key|
+        hash[key.tr(":", "_").to_sym] = document.xpath("//*[@name='#{key}']").map{|meta_og| meta_og.attributes['content'].value}
+      end
+
+      hash[:html_title] = document.title
+      hash[:html_description] = document.at('meta[name="description"]').try(:[], 'content')
       hash[:html_url] = source.request.uri.to_s
       hash
     end
